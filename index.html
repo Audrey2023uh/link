@@ -94,6 +94,14 @@
       margin-bottom: 0.6rem;
     }
     .hero-sub { color: rgba(255,255,255,0.85); font-size: 1.05rem; max-width: 700px; }
+    .hero-staff {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.92rem;
+      margin-top: 0.85rem;
+      line-height: 1.7;
+    }
+    .hero-staff a { color: #93c5fd; text-decoration: none; }
+    .hero-staff a:hover { text-decoration: underline; }
     .hero-badges {
       display: flex;
       flex-wrap: wrap;
@@ -209,6 +217,8 @@
     .tc4 { background: #f0fdf4; border-color: #16a34a; }
     .tc5 { background: #fdf4ff; border-color: #a855f7; }
     .tc6 { background: #fef2f2; border-color: #c8102e; }
+    .tc-prof { background: #fffbeb; border-color: #d97706; }
+    .tc-ta   { background: #ecfeff; border-color: #0891b2; }
 
     /* ── Figure gallery ── */
     .fig-category { margin-bottom: 1.5rem; }
@@ -406,6 +416,12 @@
         End-to-end incident intelligence from five data sources — integrated, analyzed,
         and visualized in a 25-figure GenAI / RAG analytics report.
       </p>
+      <p class="hero-staff">
+        <strong>Professor:</strong> Rajan, Karthik ·
+        <a href="mailto:krajan@Central.UH.EDU">krajan@Central.UH.EDU</a><br>
+        <strong>TA:</strong> Kedarisetty, Vishnu Sainadh ·
+        <a href="mailto:vkedari2@CougarNet.UH.EDU">vkedari2@CougarNet.UH.EDU</a>
+      </p>
       <div class="hero-badges">
         <span class="hero-badge badge-red">1,252 Incidents</span>
         <span class="hero-badge badge-teal">5 Modalities</span>
@@ -538,6 +554,16 @@
         </div>
       </div>
       <div class="team-grid">
+        <div class="team-card tc-prof">
+          <strong>Professor</strong>
+          <span>Rajan, Karthik</span>
+          <span><a href="mailto:krajan@Central.UH.EDU" style="color:#b45309;text-decoration:none;">krajan@Central.UH.EDU</a></span>
+        </div>
+        <div class="team-card tc-ta">
+          <strong>Teaching Assistant</strong>
+          <span>Kedarisetty, Vishnu Sainadh</span>
+          <span><a href="mailto:vkedari2@CougarNet.UH.EDU" style="color:#0e7490;text-decoration:none;">vkedari2@CougarNet.UH.EDU</a></span>
+        </div>
         <div class="team-card tc1"><strong>Audio Processing</strong><span>Kashfin, MD</span></div>
         <div class="team-card tc2"><strong>Document Processing</strong><span>Francisco H. Reyes</span></div>
         <div class="team-card tc3"><strong>Image Processing</strong><span>Alex Landon</span></div>
@@ -558,11 +584,11 @@
       </div>
       <div class="arch-grid">
         <div class="arch-card">
-          <img src="figures/incident_intelligence_pipeline.png" alt="Incident Intelligence Pipeline" onclick="openLightbox(this.src)">
+          <img src="dashboard/figures/incident_intelligence_pipeline.png" alt="Incident Intelligence Pipeline" onclick="openLightbox(this.src)">
           <div class="arch-cap">Incident Intelligence Pipeline — Full GenAI / RAG Framework</div>
         </div>
         <div class="arch-card">
-          <img src="figures/architecture_diagram.png" alt="Architecture Diagram" onclick="openLightbox(this.src)">
+          <img src="dashboard/figures/architecture_diagram.png" alt="Architecture Diagram" onclick="openLightbox(this.src)">
           <div class="arch-cap">High-Level Project Architecture</div>
         </div>
       </div>
@@ -579,54 +605,54 @@
       </div>
 
       <div class="fig-category">
+        <span class="fig-cat-label cat-stats">Pipeline Overview · Figure 01</span>
+        <div class="fig-grid">
+          <div class="fig-card">
+            <img src="dashboard/figures/Fig01_Pipeline_Algorithm_Flow.png" alt="Figure 01" onclick="openLightbox(this.src)">
+            <div class="fig-cap"><span class="fig-num">Figure 01</span>Full GenAI / RAG Framework Architecture</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fig-category">
         <span class="fig-cat-label cat-input">Input &amp; Distribution · Figures 02–06</span>
         <div class="fig-grid">
-          <div class="fig-card"><img src="figures/Fig02_Source_Type_Distribution.png" alt="Fig 02" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 02</span>Source Type Distribution</div></div>
-          <div class="fig-card"><img src="figures/Fig03_Event_Type_Frequency.png" alt="Fig 03" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 03</span>Event Type Frequency</div></div>
-          <div class="fig-card"><img src="figures/Fig04_Confidence_Grounding.png" alt="Fig 04" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 04</span>Confidence Score &amp; Grounding Tiers</div></div>
-          <div class="fig-card"><img src="figures/Fig05_Top_Locations.png" alt="Fig 05" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 05</span>Top Geographic Locations</div></div>
-          <div class="fig-card"><img src="figures/Fig06_Timeline.png" alt="Fig 06" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 06</span>Timeline by Year</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig02_Source_Type_Distribution.png" alt="Figure 02" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 02</span>Source Type Distribution</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig03_Event_Type_Frequency.png" alt="Figure 03" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 03</span>Event Type Frequency</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig04_Confidence_Grounding.png" alt="Figure 04" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 04</span>Confidence Score &amp; Grounding Tiers</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig05_Top_Locations.png" alt="Figure 05" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 05</span>Top Geographic Locations</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig06_Timeline.png" alt="Figure 06" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 06</span>Timeline by Year</div></div>
         </div>
       </div>
 
       <div class="fig-category">
         <span class="fig-cat-label cat-rag">RAG &amp; Retrieval · Figures 07–17</span>
         <div class="fig-grid">
-          <div class="fig-card"><img src="figures/Fig07_Heatmap_Event_Source.png" alt="Fig 07" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 07</span>Event Type × Source Type</div></div>
-          <div class="fig-card"><img src="figures/Fig08_Heatmap_Event_Grounding.png" alt="Fig 08" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 08</span>Event Type × Confidence Tier</div></div>
-          <div class="fig-card"><img src="figures/Fig09_Heatmap_Location_Event.png" alt="Fig 09" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 09</span>Location × Event Type</div></div>
-          <div class="fig-card"><img src="figures/Fig10_Correlation_Matrix.png" alt="Fig 10" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 10</span>Correlation Matrix</div></div>
-          <div class="fig-card"><img src="figures/Fig11_Baseline_vs_Engineered_RAG.png" alt="Fig 11" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 11</span>Baseline vs Engineered RAG</div></div>
-          <div class="fig-card"><img src="figures/Fig12_Attention_Weights.png" alt="Fig 12" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 12</span>Attention Weights</div></div>
-          <div class="fig-card"><img src="figures/Fig13_Semantic_Score_Distribution.png" alt="Fig 13" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 13</span>Semantic Score Distribution</div></div>
-          <div class="fig-card"><img src="figures/Fig14_Grounding_Donut.png" alt="Fig 14" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 14</span>Grounding Pass Rate</div></div>
-          <div class="fig-card"><img src="figures/Fig15_Context_Inflation.png" alt="Fig 15" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 15</span>Context Inflation</div></div>
-          <div class="fig-card"><img src="figures/Fig16_Pipeline_Metrics_Summary.png" alt="Fig 16" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 16</span>Pipeline Performance Summary</div></div>
-          <div class="fig-card"><img src="figures/Fig17_Data_Drift_by_Source.png" alt="Fig 17" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 17</span>Data Drift by Source Type</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig07_Heatmap_Event_Source.png" alt="Figure 07" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 07</span>Event Type × Source Type</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig08_Heatmap_Event_Grounding.png" alt="Figure 08" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 08</span>Event Type × Confidence Tier</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig09_Heatmap_Location_Event.png" alt="Figure 09" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 09</span>Location × Event Type</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig10_Correlation_Matrix.png" alt="Figure 10" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 10</span>Correlation Matrix</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig11_Baseline_vs_Engineered_RAG.png" alt="Figure 11" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 11</span>Baseline vs Engineered RAG</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig12_Attention_Weights.png" alt="Figure 12" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 12</span>Attention Weights</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig13_Semantic_Score_Distribution.png" alt="Figure 13" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 13</span>Semantic Score Distribution</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig14_Grounding_Donut.png" alt="Figure 14" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 14</span>Grounding Pass Rate</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig15_Context_Inflation.png" alt="Figure 15" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 15</span>Context Inflation</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig16_Pipeline_Metrics_Summary.png" alt="Figure 16" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 16</span>Pipeline Performance Summary</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig17_Data_Drift_by_Source.png" alt="Figure 17" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 17</span>Data Drift by Source Type</div></div>
         </div>
       </div>
 
       <div class="fig-category">
         <span class="fig-cat-label cat-extended">Extended Analytics · Figures 18–25</span>
         <div class="fig-grid">
-          <div class="fig-card"><img src="figures/Fig18_Statistical_Analysis.png" alt="Fig 18" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 18</span>Statistical Hypothesis Tests</div></div>
-          <div class="fig-card"><img src="figures/Fig19_Sentiment_Analysis.png" alt="Fig 19" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 19</span>Sentiment Analysis</div></div>
-          <div class="fig-card"><img src="figures/Fig20_Severity_Classification.png" alt="Fig 20" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 20</span>Severity Classification</div></div>
-          <div class="fig-card"><img src="figures/Fig21_Missing_Data_Analysis.png" alt="Fig 21" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 21</span>Missing Data Analysis</div></div>
-          <div class="fig-card"><img src="figures/Fig22_Executive_KPI_Dashboard.png" alt="Fig 22" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 22</span>Executive KPI Dashboard</div></div>
-          <div class="fig-card"><img src="figures/Fig23_Trend_Analysis.png" alt="Fig 23" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 23</span>Trend Analysis</div></div>
-          <div class="fig-card"><img src="figures/Fig24_Outlier_Analysis.png" alt="Fig 24" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 24</span>Outlier Analysis</div></div>
-          <div class="fig-card"><img src="figures/Fig25_Cross_Source_Comparison.png" alt="Fig 25" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 25</span>Cross-Source Comparison</div></div>
-        </div>
-      </div>
-
-      <div class="fig-category">
-        <span class="fig-cat-label cat-stats">Pipeline Overview · Figure 01</span>
-        <div class="fig-grid">
-          <div class="fig-card">
-            <img src="figures/Fig01_Pipeline_Algorithm_Flow.png" alt="Fig 01" onclick="openLightbox(this.src)">
-            <div class="fig-cap"><span class="fig-num">Figure 01</span>Full GenAI / RAG Framework Architecture</div>
-          </div>
+          <div class="fig-card"><img src="dashboard/figures/Fig18_Statistical_Analysis.png" alt="Figure 18" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 18</span>Statistical Hypothesis Tests</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig19_Sentiment_Analysis.png" alt="Figure 19" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 19</span>Sentiment Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig20_Severity_Classification.png" alt="Figure 20" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 20</span>Severity Classification</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig21_Missing_Data_Analysis.png" alt="Figure 21" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 21</span>Missing Data Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig22_Executive_KPI_Dashboard.png" alt="Figure 22" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 22</span>Executive KPI Dashboard</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig23_Trend_Analysis.png" alt="Figure 23" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 23</span>Trend Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig24_Outlier_Analysis.png" alt="Figure 24" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 24</span>Outlier Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig25_Cross_Source_Comparison.png" alt="Figure 25" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 25</span>Cross-Source Comparison</div></div>
         </div>
       </div>
     </section>
@@ -646,19 +672,19 @@
           <button class="tab-btn" onclick="showReport('arch', this)">Project Architecture</button>
         </div>
         <div id="panel-final" class="report-panel active">
-          <iframe class="pdf-frame" src="reports/EDS6397_Final_Analysis.pdf" title="EDS6397 Final Analysis"></iframe>
+          <iframe class="pdf-frame" src="dashboard/reports/EDS6397_Final_Analysis.pdf" title="EDS6397 Final Analysis"></iframe>
         </div>
         <div id="panel-arch" class="report-panel">
-          <iframe class="pdf-frame" src="reports/EDS6397_Project_Architecture.pdf" title="EDS6397 Project Architecture"></iframe>
+          <iframe class="pdf-frame" src="dashboard/reports/EDS6397_Project_Architecture.pdf" title="EDS6397 Project Architecture"></iframe>
         </div>
         <div class="download-row">
-          <a class="dl-btn dl-pdf" href="reports/EDS6397_Final_Analysis.pdf" download>
+          <a class="dl-btn dl-pdf" href="dashboard/reports/EDS6397_Final_Analysis.pdf" download>
             <span class="dl-icon">⬇</span> Download Final Analysis PDF
           </a>
-          <a class="dl-btn dl-pdf" href="reports/EDS6397_Project_Architecture.pdf" download>
+          <a class="dl-btn dl-pdf" href="dashboard/reports/EDS6397_Project_Architecture.pdf" download>
             <span class="dl-icon">⬇</span> Download Architecture PDF
           </a>
-          <a class="dl-btn dl-ppt" href="presentations/EDS6397_Group01_Incident_Analysis.pptx" download>
+          <a class="dl-btn dl-ppt" href="dashboard/presentations/EDS6397_Group01_Incident_Analysis.pptx" download>
             <span class="dl-icon">⬇</span> Download PowerPoint
           </a>
         </div>
@@ -705,7 +731,9 @@
   </main>
 
   <footer>
-    <strong>EDS6397 Group 01</strong> · University of Houston · Summer 2026 ·
+    <strong>EDS6397 Group 01</strong> · University of Houston · Summer 2026<br>
+    Professor: Rajan, Karthik (krajan@Central.UH.EDU) ·
+    TA: Kedarisetty, Vishnu Sainadh (vkedari2@CougarNet.UH.EDU)<br>
     Integration Lead: Audrey Rah · Deadline: June 28, 2026
   </footer>
 
