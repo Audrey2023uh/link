@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EDS6397 Group 01 – Multimodal Incident Analysis</title>
+  <style>
+    :root {
+      --navy: #1f3a5f;
+      --navy-dark: #0f2340;
+      --red: #c8102e;
+      --teal: #0d9488;
+      --purple: #6d28d9;
+      --orange: #ea580c;
+      --blue: #2563eb;
+      --green: #16a34a;
+      --gold: #d97706;
+      --bg: #f0f4fa;
+      --card: #ffffff;
+      --text: #1e293b;
+      --muted: #64748b;
+      --border: #dbe4f0;
+      --shadow: 0 10px 30px rgba(15, 35, 64, 0.1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(15, 35, 64, 0.97);
+      backdrop-filter: blur(8px);
+      border-bottom: 3px solid var(--red);
+      padding: 0.65rem 1.25rem;
+    }
+    nav ul {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.35rem 1.1rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      justify-content: center;
+    }
+    nav a {
+      color: rgba(255,255,255,0.88);
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      padding: 0.25rem 0;
+      border-bottom: 2px solid transparent;
+      transition: color 0.15s, border-color 0.15s;
+    }
+    nav a:hover { color: #fff; border-color: var(--red); }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, #0f2340 0%, #1f3a5f 40%, #1e40af 100%);
+      color: #fff;
+      padding: 3rem 1.25rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 80% 20%, rgba(200,16,46,0.25) 0%, transparent 50%),
+                  radial-gradient(circle at 10% 80%, rgba(13,148,136,0.2) 0%, transparent 45%);
+    }
+    .hero-inner { max-width: 1200px; margin: 0 auto; position: relative; }
+    .hero-eyebrow {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #fca5a5;
+      margin-bottom: 0.5rem;
+    }
+    .hero h1 {
+      font-size: clamp(1.8rem, 4.5vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 0.6rem;
+    }
+    .hero-sub { color: rgba(255,255,255,0.85); font-size: 1.05rem; max-width: 700px; }
+    .hero-staff {
+      color: rgba(255,255,255,0.9);
+      font-size: 0.92rem;
+      margin-top: 0.85rem;
+      line-height: 1.7;
+    }
+    .hero-staff a { color: #93c5fd; text-decoration: none; }
+    .hero-staff a:hover { text-decoration: underline; }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1.25rem;
+    }
+    .hero-badge {
+      padding: 0.35rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      border: 1px solid rgba(255,255,255,0.25);
+    }
+    .badge-red    { background: rgba(200,16,46,0.35); }
+    .badge-teal   { background: rgba(13,148,136,0.35); }
+    .badge-purple { background: rgba(109,40,217,0.35); }
+    .badge-blue   { background: rgba(37,99,235,0.35); }
+
+    /* ── Layout ── */
+    main { max-width: 1200px; margin: 0 auto; padding: 1.75rem 1.25rem 3rem; }
+    section { margin-bottom: 2.25rem; scroll-margin-top: 3.5rem; }
+
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.1rem;
+    }
+    .section-icon {
+      width: 42px; height: 42px;
+      border-radius: 12px;
+      display: grid; place-items: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    h2 {
+      font-size: 1.45rem;
+      color: var(--navy);
+      font-weight: 800;
+    }
+    .section-sub { color: var(--muted); font-size: 0.9rem; margin-top: 0.1rem; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      padding: 1.4rem;
+    }
+
+    /* ── KPI Grid ── */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 0.85rem;
+    }
+    .kpi {
+      border-radius: 14px;
+      padding: 1rem;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+    }
+    .kpi::after {
+      content: "";
+      position: absolute;
+      right: -15px; bottom: -15px;
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.12);
+    }
+    .kpi .kpi-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; opacity: 0.9; }
+    .kpi .kpi-val { font-size: 1.65rem; font-weight: 800; margin-top: 0.15rem; }
+    .kpi .kpi-sub { font-size: 0.78rem; opacity: 0.85; margin-top: 0.1rem; }
+    .kpi-navy   { background: linear-gradient(135deg, #1f3a5f, #2563eb); }
+    .kpi-red    { background: linear-gradient(135deg, #b91c1c, #c8102e); }
+    .kpi-teal   { background: linear-gradient(135deg, #0f766e, #14b8a6); }
+    .kpi-purple { background: linear-gradient(135deg, #5b21b6, #8b5cf6); }
+    .kpi-orange { background: linear-gradient(135deg, #c2410c, #f97316); }
+    .kpi-green  { background: linear-gradient(135deg, #15803d, #22c55e); }
+    .kpi-gold   { background: linear-gradient(135deg, #b45309, #f59e0b); }
+    .kpi-blue   { background: linear-gradient(135deg, #1d4ed8, #60a5fa); }
+
+    /* ── Modality bars ── */
+    .modality-list { display: flex; flex-direction: column; gap: 0.65rem; margin-top: 0.5rem; }
+    .mod-row { display: flex; align-items: center; gap: 0.75rem; }
+    .mod-label { width: 80px; font-size: 0.85rem; font-weight: 600; color: var(--navy); flex-shrink: 0; }
+    .mod-bar-wrap { flex: 1; background: #e8edf4; border-radius: 999px; height: 22px; overflow: hidden; }
+    .mod-bar { height: 100%; border-radius: 999px; display: flex; align-items: center; padding-left: 0.6rem; font-size: 0.75rem; font-weight: 700; color: #fff; min-width: 40px; }
+    .mod-audio  { background: linear-gradient(90deg, #2563eb, #60a5fa); width: 56.5%; }
+    .mod-video  { background: linear-gradient(90deg, #7c3aed, #a78bfa); width: 27.5%; }
+    .mod-text   { background: linear-gradient(90deg, #0d9488, #2dd4bf); width: 9.2%; }
+    .mod-image  { background: linear-gradient(90deg, #ea580c, #fb923c); width: 5.8%; }
+    .mod-doc    { background: linear-gradient(90deg, #c8102e, #f87171); width: 1%; min-width: 28px; }
+    .mod-count { width: 50px; text-align: right; font-size: 0.85rem; font-weight: 700; color: var(--navy); }
+
+    /* ── Team ── */
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+    .team-card {
+      border-radius: 12px;
+      padding: 0.9rem 1rem;
+      border-left: 4px solid;
+    }
+    .team-card strong { display: block; color: var(--navy); font-size: 0.9rem; }
+    .team-card span { font-size: 0.85rem; color: var(--muted); }
+    .tc1 { background: #eff6ff; border-color: #2563eb; }
+    .tc2 { background: #f5f3ff; border-color: #7c3aed; }
+    .tc3 { background: #fff7ed; border-color: #ea580c; }
+    .tc4 { background: #f0fdf4; border-color: #16a34a; }
+    .tc5 { background: #fdf4ff; border-color: #a855f7; }
+    .tc6 { background: #fef2f2; border-color: #c8102e; }
+    .tc-prof { background: #fffbeb; border-color: #d97706; }
+    .tc-ta   { background: #ecfeff; border-color: #0891b2; }
+
+    /* ── Figure gallery ── */
+    .fig-category { margin-bottom: 1.5rem; }
+    .fig-cat-label {
+      display: inline-block;
+      padding: 0.3rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    .cat-input    { background: #dbeafe; color: #1d4ed8; }
+    .cat-rag      { background: #ede9fe; color: #6d28d9; }
+    .cat-stats    { background: #d1fae5; color: #047857; }
+    .cat-extended { background: #ffedd5; color: #c2410c; }
+
+    .fig-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .fig-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: transform 0.18s, box-shadow 0.18s;
+    }
+    .fig-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); }
+    .fig-card img { width: 100%; display: block; cursor: pointer; background: #f8fafc; }
+    .fig-card .fig-cap {
+      padding: 0.7rem 0.9rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--navy);
+      border-top: 1px solid var(--border);
+      background: #f8fafc;
+    }
+    .fig-card .fig-num {
+      font-size: 0.72rem;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+
+    /* ── Architecture showcase ── */
+    .arch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    .arch-card {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--border);
+      background: #fff;
+    }
+    .arch-card img { width: 100%; display: block; }
+    .arch-cap {
+      padding: 0.75rem 1rem;
+      background: linear-gradient(90deg, var(--navy), #2563eb);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    /* ── Embedded reports ── */
+    .report-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 0.85rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 0.55rem 1.1rem;
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--navy);
+      font-weight: 700;
+      font-size: 0.88rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .tab-btn.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .tab-btn:hover:not(.active) { border-color: var(--navy); }
+    .pdf-frame {
+      width: 100%;
+      height: 720px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      background: #e8edf4;
+    }
+    .report-panel { display: none; }
+    .report-panel.active { display: block; }
+
+    .download-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .dl-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.65rem 1.2rem;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: #fff;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+    .dl-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+    .dl-pdf  { background: linear-gradient(135deg, #1f3a5f, #2563eb); }
+    .dl-ppt  { background: linear-gradient(135deg, #c2410c, #ea580c); }
+    .dl-icon { font-size: 1.1rem; }
+
+    /* ── Conclusion ── */
+    .conclusion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 0.85rem;
+    }
+    .conc-item {
+      padding: 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+    }
+    .conc-item h3 { font-size: 0.88rem; color: var(--navy); margin-bottom: 0.35rem; }
+    .conc-item p { font-size: 0.85rem; color: var(--muted); }
+
+    /* ── Project overview ── */
+    .overview-block { margin-bottom: 1.25rem; }
+    .overview-block:last-child { margin-bottom: 0; }
+    .overview-block h3 {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 0.45rem;
+      padding-bottom: 0.35rem;
+      border-bottom: 2px solid var(--border);
+    }
+    .overview-block p {
+      font-size: 0.92rem;
+      color: var(--text);
+      line-height: 1.65;
+      margin-bottom: 0.5rem;
+    }
+    .overview-block ul {
+      margin: 0.35rem 0 0 1.1rem;
+      padding: 0;
+    }
+    .overview-block li {
+      font-size: 0.9rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: 0.35rem;
+    }
+
+    /* ── Lightbox ── */
+    .lightbox {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.88);
+      z-index: 200;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 95vw; max-height: 90vh; border-radius: 8px; }
+    .lightbox-close {
+      position: absolute; top: 1rem; right: 1.25rem;
+      color: #fff; font-size: 2rem; cursor: pointer; line-height: 1;
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--navy-dark);
+      color: rgba(255,255,255,0.7);
+      font-size: 0.85rem;
+    }
+    footer strong { color: #fff; }
+
+    @media (max-width: 640px) {
+      .pdf-frame { height: 480px; }
+      .card { padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="#summary">Summary</a></li>
+      <li><a href="#overview">Overview</a></li>
+      <li><a href="#results">Results</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="#architecture">Architecture</a></li>
+      <li><a href="#figures">Figures</a></li>
+      <li><a href="#reports">Reports</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+    </ul>
+  </nav>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">University of Houston · EDS 6397 · Summer 2026</div>
+      <h1>EDS6397 Group 01<br>Multimodal Incident Analysis</h1>
+      <p class="hero-sub">
+        End-to-end incident intelligence from five data sources — integrated, analyzed,
+        and visualized in a 25-figure GenAI / RAG analytics report.
+      </p>
+      <p class="hero-staff">
+        <strong>Professor:</strong> Rajan, Karthik ·
+        <a href="mailto:krajan@Central.UH.EDU">krajan@Central.UH.EDU</a><br>
+        <strong>TA:</strong> Kedarisetty, Vishnu Sainadh ·
+        <a href="mailto:vkedari2@CougarNet.UH.EDU">vkedari2@CougarNet.UH.EDU</a>
+      </p>
+      <div class="hero-badges">
+        <span class="hero-badge badge-red">1,252 Incidents</span>
+        <span class="hero-badge badge-teal">5 Modalities</span>
+        <span class="hero-badge badge-purple">25 Figures</span>
+        <span class="hero-badge badge-blue">Integration Lead: Audrey Rah</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- KPI Summary -->
+    <section id="summary">
+      <div class="section-head">
+        <div class="section-icon" style="background:#dbeafe;">📊</div>
+        <div>
+          <h2>Final Dataset Summary</h2>
+          <p class="section-sub">combined_dataset2.csv · 1,252 integrated records</p>
+        </div>
+      </div>
+      <div class="kpi-grid">
+        <div class="kpi kpi-navy">
+          <div class="kpi-label">Total Incidents</div>
+          <div class="kpi-val">1,252</div>
+          <div class="kpi-sub">Unified dataset</div>
+        </div>
+        <div class="kpi kpi-teal">
+          <div class="kpi-label">Modalities</div>
+          <div class="kpi-val">5</div>
+          <div class="kpi-sub">Audio · Video · Text · Image · Document</div>
+        </div>
+        <div class="kpi kpi-blue">
+          <div class="kpi-label">Mean Confidence</div>
+          <div class="kpi-val">0.572</div>
+          <div class="kpi-sub">95% CI: 0.557 – 0.588</div>
+        </div>
+        <div class="kpi kpi-green">
+          <div class="kpi-label">High Confidence</div>
+          <div class="kpi-val">154</div>
+          <div class="kpi-sub">12.3% ≥ 0.80</div>
+        </div>
+        <div class="kpi kpi-red">
+          <div class="kpi-label">Hallucination Risk</div>
+          <div class="kpi-val">360</div>
+          <div class="kpi-sub">28.8% &lt; 0.50</div>
+        </div>
+        <div class="kpi kpi-purple">
+          <div class="kpi-label">High / Critical</div>
+          <div class="kpi-val">867</div>
+          <div class="kpi-sub">Severity classification</div>
+        </div>
+        <div class="kpi kpi-orange">
+          <div class="kpi-label">Top Event</div>
+          <div class="kpi-val" style="font-size:1rem;">No activity detected</div>
+          <div class="kpi-sub">184 records (14.7%)</div>
+        </div>
+        <div class="kpi kpi-gold">
+          <div class="kpi-label">Total Figures</div>
+          <div class="kpi-val">25</div>
+          <div class="kpi-sub">Full analysis report</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Overview -->
+    <section id="overview">
+      <div class="section-head">
+        <div class="section-icon" style="background:#ede9fe;">📋</div>
+        <div>
+          <h2>Project Overview</h2>
+          <p class="section-sub">Integration approach, tools, and challenges — from EDS6397_Final_Analysis.pdf</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="overview-block">
+          <h3>Approach</h3>
+          <p>
+            The outputs from the five independent modalities (Audio, Document/PDF, Image, Text, and Video) were
+            collected and standardized into a common seven-column schema. Each dataset was validated for schema
+            consistency, aligned using the assigned Incident_ID ranges, and merged into a single integrated dataset.
+            The integrated dataset was then used for dashboard visualization, statistical analysis, and multimodal
+            incident intelligence.
+          </p>
+        </div>
+        <div class="overview-block">
+          <h3>Tools</h3>
+          <p>
+            Python, Pandas, NumPy, Streamlit, Matplotlib, Plotly, and Scikit-learn (TF-IDF and cosine similarity
+            for the lightweight RAG prototype).
+          </p>
+        </div>
+        <div class="overview-block">
+          <h3>Dataset Used</h3>
+          <p>
+            The final analysis was performed using a single integrated dataset (<strong>combined_dataset2.csv</strong>)
+            created by merging the outputs from the Audio, Document/PDF, Image, Text, and Video modalities.
+          </p>
+          <p>
+            The integrated dataset contains <strong>1,252 incident records</strong> with the following standardized
+            fields: Incident_ID, Event_Type, Source_Type, Date_Time, Location, Confidence_Score, and Summary.
+          </p>
+        </div>
+        <div class="overview-block">
+          <h3>Challenges</h3>
+          <p>
+            The main challenges included standardizing outputs from different modalities, validating schema
+            consistency across all datasets, handling missing values, ensuring unique Incident_ID allocation, and
+            integrating datasets with different sizes while maintaining data quality.
+          </p>
+          <ul>
+            <li>Standardizing heterogeneous outputs generated from five different modalities into a unified incident schema.</li>
+            <li>Maintaining consistent field names, data types, and formatting across all integrated datasets.</li>
+            <li>Validating Incident_ID allocation to prevent duplicate identifiers during dataset merging.</li>
+            <li>Handling missing and incomplete values while preserving the integrity of the integrated dataset.</li>
+            <li>Normalizing confidence scores generated from different data sources.</li>
+            <li>Ensuring compatibility between multimodal outputs for downstream statistical analysis and dashboard visualization.</li>
+            <li>Preserving data quality and consistency throughout the integration pipeline.</li>
+          </ul>
+        </div>
+        <div class="overview-block">
+          <h3>Results</h3>
+          <p>
+            The integration successfully produced a unified multimodal incident dataset containing 1,252 incident
+            records from all five modalities. The merged dataset was used to generate the interactive dashboard,
+            statistical analyses, lightweight GenAI/RAG prototype evaluation, sentiment analysis, severity
+            classification, KPI summaries, trend analysis, and cross-modality comparisons.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Results -->
+    <section id="results">
+      <div class="section-head">
+        <div class="section-icon" style="background:#d1fae5;">📈</div>
+        <div>
+          <h2>Key Results</h2>
+          <p class="section-sub">From EDS6397_Final_Analysis.pdf — all values computed from live data</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="modality-list">
+          <div class="mod-row">
+            <span class="mod-label">Audio</span>
+            <div class="mod-bar-wrap"><div class="mod-bar mod-audio">56.5%</div></div>
+            <span class="mod-count">708</span>
+          </div>
+          <div class="mod-row">
+            <span class="mod-label">Video</span>
+            <div class="mod-bar-wrap"><div class="mod-bar mod-video">27.5%</div></div>
+            <span class="mod-count">344</span>
+          </div>
+          <div class="mod-row">
+            <span class="mod-label">Text</span>
+            <div class="mod-bar-wrap"><div class="mod-bar mod-text">9.2%</div></div>
+            <span class="mod-count">115</span>
+          </div>
+          <div class="mod-row">
+            <span class="mod-label">Image</span>
+            <div class="mod-bar-wrap"><div class="mod-bar mod-image">5.8%</div></div>
+            <span class="mod-count">72</span>
+          </div>
+          <div class="mod-row">
+            <span class="mod-label">Document</span>
+            <div class="mod-bar-wrap"><div class="mod-bar mod-doc"></div></div>
+            <span class="mod-count">13</span>
+          </div>
+        </div>
+        <div style="margin-top:1.25rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.75rem;">
+          <div style="background:#eff6ff;border-radius:10px;padding:0.85rem;border-left:4px solid #2563eb;">
+            <strong style="color:#1d4ed8;font-size:0.82rem;">SENTIMENT (Summary)</strong>
+            <p style="font-size:0.88rem;margin-top:0.3rem;color:#334155;">Negative <b>754</b> · Neutral <b>101</b> · Positive <b>397</b></p>
+          </div>
+          <div style="background:#f0fdf4;border-radius:10px;padding:0.85rem;border-left:4px solid #16a34a;">
+            <strong style="color:#15803d;font-size:0.82rem;">SEVERITY</strong>
+            <p style="font-size:0.88rem;margin-top:0.3rem;color:#334155;">Low <b>282</b> · Med <b>103</b> · High <b>219</b> · Critical <b>648</b></p>
+          </div>
+          <div style="background:#fdf4ff;border-radius:10px;padding:0.85rem;border-left:4px solid #7c3aed;">
+            <strong style="color:#6d28d9;font-size:0.82rem;">STATISTICS</strong>
+            <p style="font-size:0.88rem;margin-top:0.3rem;color:#334155;">Chi-square &amp; Kruskal-Wallis: <b>p &lt; 0.001</b></p>
+          </div>
+          <div style="background:#fff7ed;border-radius:10px;padding:0.85rem;border-left:4px solid #ea580c;">
+            <strong style="color:#c2410c;font-size:0.82rem;">TREND SUBSET</strong>
+            <p style="font-size:0.88rem;margin-top:0.3rem;color:#334155;"><b>686</b> of 1,252 records with valid dates</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Team -->
+    <section id="team">
+      <div class="section-head">
+        <div class="section-icon" style="background:#ede9fe;">👥</div>
+        <div>
+          <h2>Team Members &amp; Roles</h2>
+          <p class="section-sub">EDS6397 Group 01 · Project Deadline: June 28, 2026</p>
+        </div>
+      </div>
+      <div class="team-grid">
+        <div class="team-card tc-prof">
+          <strong>Professor</strong>
+          <span>Rajan, Karthik</span>
+          <span><a href="mailto:krajan@Central.UH.EDU" style="color:#b45309;text-decoration:none;">krajan@Central.UH.EDU</a></span>
+        </div>
+        <div class="team-card tc-ta">
+          <strong>Teaching Assistant</strong>
+          <span>Kedarisetty, Vishnu Sainadh</span>
+          <span><a href="mailto:vkedari2@CougarNet.UH.EDU" style="color:#0e7490;text-decoration:none;">vkedari2@CougarNet.UH.EDU</a></span>
+        </div>
+        <div class="team-card tc1"><strong>Audio Processing</strong><span>Kashfin, MD</span></div>
+        <div class="team-card tc2"><strong>Document Processing</strong><span>Francisco H. Reyes</span></div>
+        <div class="team-card tc3"><strong>Image Processing</strong><span>Alex Landon</span></div>
+        <div class="team-card tc4"><strong>Video Processing</strong><span>Roberto Gomez</span></div>
+        <div class="team-card tc5"><strong>Text Processing</strong><span>Lujia Wu</span></div>
+        <div class="team-card tc6"><strong>Integration &amp; Dashboard Lead</strong><span>Audrey Rah</span></div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture">
+      <div class="section-head">
+        <div class="section-icon" style="background:#ffedd5;">🏗️</div>
+        <div>
+          <h2>Pipeline Architecture</h2>
+          <p class="section-sub">Six-stage Incident Intelligence Pipeline — GenAI / RAG Framework</p>
+        </div>
+      </div>
+      <div class="arch-grid">
+        <div class="arch-card">
+          <img src="dashboard/figures/incident_intelligence_pipeline.png" alt="Incident Intelligence Pipeline" onclick="openLightbox(this.src)">
+          <div class="arch-cap">Incident Intelligence Pipeline — Full GenAI / RAG Framework</div>
+        </div>
+        <div class="arch-card">
+          <img src="dashboard/figures/architecture_diagram.png" alt="Architecture Diagram" onclick="openLightbox(this.src)">
+          <div class="arch-cap">High-Level Project Architecture</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- All 25 Figures -->
+    <section id="figures">
+      <div class="section-head">
+        <div class="section-icon" style="background:#fef9c3;">🖼️</div>
+        <div>
+          <h2>Analysis Figures (25)</h2>
+          <p class="section-sub">Click any figure to enlarge · From EDS6397_Final_Analysis.pdf</p>
+        </div>
+      </div>
+
+      <div class="fig-category">
+        <span class="fig-cat-label cat-stats">Pipeline Overview · Figure 01</span>
+        <div class="fig-grid">
+          <div class="fig-card">
+            <img src="dashboard/figures/Fig01_Pipeline_Algorithm_Flow.png" alt="Figure 01" onclick="openLightbox(this.src)">
+            <div class="fig-cap"><span class="fig-num">Figure 01</span>Full GenAI / RAG Framework Architecture</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fig-category">
+        <span class="fig-cat-label cat-input">Input &amp; Distribution · Figures 02–06</span>
+        <div class="fig-grid">
+          <div class="fig-card"><img src="dashboard/figures/Fig02_Source_Type_Distribution.png" alt="Figure 02" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 02</span>Source Type Distribution</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig03_Event_Type_Frequency.png" alt="Figure 03" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 03</span>Event Type Frequency</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig04_Confidence_Grounding.png" alt="Figure 04" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 04</span>Confidence Score &amp; Grounding Tiers</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig05_Top_Locations.png" alt="Figure 05" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 05</span>Top Geographic Locations</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig06_Timeline.png" alt="Figure 06" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 06</span>Timeline by Year</div></div>
+        </div>
+      </div>
+
+      <div class="fig-category">
+        <span class="fig-cat-label cat-rag">RAG &amp; Retrieval · Figures 07–17</span>
+        <div class="fig-grid">
+          <div class="fig-card"><img src="dashboard/figures/Fig07_Heatmap_Event_Source.png" alt="Figure 07" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 07</span>Event Type × Source Type</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig08_Heatmap_Event_Grounding.png" alt="Figure 08" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 08</span>Event Type × Confidence Tier</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig09_Heatmap_Location_Event.png" alt="Figure 09" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 09</span>Location × Event Type</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig10_Correlation_Matrix.png" alt="Figure 10" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 10</span>Correlation Matrix</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig11_Baseline_vs_Engineered_RAG.png" alt="Figure 11" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 11</span>Baseline vs Engineered RAG</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig12_Attention_Weights.png" alt="Figure 12" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 12</span>Attention Weights</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig13_Semantic_Score_Distribution.png" alt="Figure 13" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 13</span>Semantic Score Distribution</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig14_Grounding_Donut.png" alt="Figure 14" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 14</span>Grounding Pass Rate</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig15_Context_Inflation.png" alt="Figure 15" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 15</span>Context Inflation</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig16_Pipeline_Metrics_Summary.png" alt="Figure 16" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 16</span>Pipeline Performance Summary</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig17_Data_Drift_by_Source.png" alt="Figure 17" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 17</span>Data Drift by Source Type</div></div>
+        </div>
+      </div>
+
+      <div class="fig-category">
+        <span class="fig-cat-label cat-extended">Extended Analytics · Figures 18–25</span>
+        <div class="fig-grid">
+          <div class="fig-card"><img src="dashboard/figures/Fig18_Statistical_Analysis.png" alt="Figure 18" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 18</span>Statistical Hypothesis Tests</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig19_Sentiment_Analysis.png" alt="Figure 19" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 19</span>Sentiment Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig20_Severity_Classification.png" alt="Figure 20" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 20</span>Severity Classification</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig21_Missing_Data_Analysis.png" alt="Figure 21" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 21</span>Missing Data Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig22_Executive_KPI_Dashboard.png" alt="Figure 22" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 22</span>Executive KPI Dashboard</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig23_Trend_Analysis.png" alt="Figure 23" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 23</span>Trend Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig24_Outlier_Analysis.png" alt="Figure 24" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 24</span>Outlier Analysis</div></div>
+          <div class="fig-card"><img src="dashboard/figures/Fig25_Cross_Source_Comparison.png" alt="Figure 25" onclick="openLightbox(this.src)"><div class="fig-cap"><span class="fig-num">Figure 25</span>Cross-Source Comparison</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Embedded Reports -->
+    <section id="reports">
+      <div class="section-head">
+        <div class="section-icon" style="background:#fee2e2;">📄</div>
+        <div>
+          <h2>Embedded Reports</h2>
+          <p class="section-sub">View full PDF reports directly in the browser</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="report-tabs">
+          <button class="tab-btn active" onclick="showReport('final', this)">Final Analysis (25 Figures)</button>
+          <button class="tab-btn" onclick="showReport('arch', this)">Project Architecture</button>
+        </div>
+        <div id="panel-final" class="report-panel active">
+          <iframe class="pdf-frame" src="dashboard/reports/EDS6397_Final_Analysis.pdf" title="EDS6397 Final Analysis"></iframe>
+        </div>
+        <div id="panel-arch" class="report-panel">
+          <iframe class="pdf-frame" src="dashboard/reports/EDS6397_Project_Architecture.pdf" title="EDS6397 Project Architecture"></iframe>
+        </div>
+        <div class="download-row">
+          <a class="dl-btn dl-pdf" href="dashboard/reports/EDS6397_Final_Analysis.pdf" download>
+            <span class="dl-icon">⬇</span> Download Final Analysis PDF
+          </a>
+          <a class="dl-btn dl-pdf" href="dashboard/reports/EDS6397_Project_Architecture.pdf" download>
+            <span class="dl-icon">⬇</span> Download Architecture PDF
+          </a>
+          <a class="dl-btn dl-ppt" href="dashboard/presentations/EDS6397_Group01_Incident_Analysis.pptx" download>
+            <span class="dl-icon">⬇</span> Download PowerPoint
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Conclusion -->
+    <section id="conclusion">
+      <div class="section-head">
+        <div class="section-icon" style="background:#d1fae5;">✅</div>
+        <div>
+          <h2>Conclusion &amp; Key Findings</h2>
+          <p class="section-sub">Summary of EDS6397 Group 01 multimodal incident analysis</p>
+        </div>
+      </div>
+      <div class="conclusion-grid">
+        <div class="conc-item" style="background:#eff6ff;">
+          <h3>Total Incidents Analyzed</h3>
+          <p>1,252 integrated records from combined_dataset2.csv across five modalities.</p>
+        </div>
+        <div class="conc-item" style="background:#f0fdf4;">
+          <h3>Audio Dominant Source</h3>
+          <p>Audio contributed 708 records (56.5%) — the largest modality in the corpus.</p>
+        </div>
+        <div class="conc-item" style="background:#fdf4ff;">
+          <h3>Statistical Significance</h3>
+          <p>Chi-square and Kruskal-Wallis tests both returned p &lt; 0.001, confirming significant cross-modality differences.</p>
+        </div>
+        <div class="conc-item" style="background:#fff7ed;">
+          <h3>Sentiment Distribution</h3>
+          <p>Negative 754 · Neutral 101 · Positive 397 (VADER on Summary text).</p>
+        </div>
+        <div class="conc-item" style="background:#fef2f2;">
+          <h3>Severity Distribution</h3>
+          <p>Low 282 · Medium 103 · High 219 · Critical 648. 867 incidents classified High or Critical.</p>
+        </div>
+        <div class="conc-item" style="background:#f5f3ff;">
+          <h3>Main Contribution</h3>
+          <p>End-to-end multimodal pipeline with TF-IDF RAG prototype, 25-figure analytics report, severity classification, and decision-support dashboard.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <strong>EDS6397 Group 01</strong> · University of Houston · Summer 2026<br>
+    Professor: Rajan, Karthik (krajan@Central.UH.EDU) ·
+    TA: Kedarisetty, Vishnu Sainadh (vkedari2@CougarNet.UH.EDU)<br>
+    Integration Lead: Audrey Rah · Deadline: June 28, 2026
+  </footer>
+
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close" onclick="closeLightbox()">×</span>
+    <img id="lightbox-img" src="" alt="Enlarged figure">
+  </div>
+
+  <script>
+    function showReport(id, btn) {
+      document.querySelectorAll('.report-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById('panel-' + id).classList.add('active');
+      btn.classList.add('active');
+    }
+    function openLightbox(src) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox').classList.add('open');
+    }
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('open');
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+  </script>
+</body>
+</html>
